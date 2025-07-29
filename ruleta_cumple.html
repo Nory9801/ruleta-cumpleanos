@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ruleta de Cumpleaños 🎉</title>
+<style>
+  body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: #fffbf0;
+    text-align: center;
+    padding: 20px;
+    color: #333;
+  }
+  h1 {
+    color: #f9a825;
+  }
+  #numero {
+    font-size: 120px;
+    margin: 20px 0 10px 0;
+    color: #ff5722;
+    font-weight: bold;
+  }
+  #mensaje {
+    font-size: 24px;
+    margin: 15px 20px;
+    min-height: 80px;
+  }
+  #imagen {
+    max-width: 250px;
+    margin: 20px auto;
+  }
+  button {
+    background-color: #f9a825;
+    border: none;
+    padding: 15px 30px;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 5px 0 #b28704;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #c17900;
+  }
+  #audio-control {
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<h1>🎉 Ruleta de Cumpleaños de Bob Esponja 🎉</h1>
+
+<!-- Imagen pública de Bob Esponja en Imgur -->
+<img id="imagen" src="https://i.imgur.com/6gF3MvY.png" alt="Bob Esponja" />
+
+<div id="numero">-</div>
+<div id="mensaje">¡Gira la ruleta para descubrir tu regalo del día!</div>
+
+<button id="girar">Girar Ruleta</button>
+
+<div id="audio-control">
+  <audio id="musica" loop>
+    <!-- Música de cumpleaños en mp3 alojada en archivo seguro -->
+    <source src="https://cdn.pixabay.com/download/audio/2022/02/23/audio_22ec2c1a68.mp3?filename=happy-birthday-6109.mp3" type="audio/mpeg" />
+    Tu navegador no soporta audio.
+  </audio>
+  <button id="toggle-audio">🎵 Reproducir Música</button>
+</div>
+
+<script>
+  const mensajes = {
+    1: "¡Hora de ponerse fuerte y con mucho estilo! ¡Que no falten vitaminas ni energía!",
+    2: "¡Prepárate para ser un campeón! ¡Los guantes están listos para la acción!",
+    3: "¡Es tiempo de brillar! ¡Con estilo y puntualidad para todos tus planes!",
+    4: "¡Dulce momento para celebrar con amigos y familia! ¡No olvides tus gafas cool!",
+    5: "¡El gran día llegó! ¡Ponete los zapatos y a conquistar la cancha!"
+  };
+
+  // Detectar día de la semana (0=domingo, 1=lunes,... 5=viernes)
+  function obtenerRangoNumeros() {
+    const hoy = new Date().getDay();
+    if (hoy >= 1 && hoy <= 4) {
+      return [1, 2, 3, 4];
+    } else if (hoy === 5) {
+      return [5];
+    } else {
+      return [1];
+    }
+  }
+
+  function elegirNumero() {
+    const opciones = obtenerRangoNumeros();
+    const index = Math.floor(Math.random() * opciones.length);
+    return opciones[index];
+  }
+
+  const btnGirar = document.getElementById('girar');
+  const divNumero = document.getElementById('numero');
+  const divMensaje = document.getElementById('mensaje');
+  const imgBob = document.getElementById('imagen');
+  const audio = document.getElementById('musica');
+  const btnAudio = document.getElementById('toggle-audio');
+
+  btnGirar.addEventListener('click', () => {
+    const numero = elegirNumero();
+    divNumero.textContent = numero;
+    divMensaje.textContent = mensajes[numero];
+    if (audio.paused) {
+      audio.play().catch(() => {});
+    }
+  });
+
+  btnAudio.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      btnAudio.textContent = "🔇 Pausar Música";
+    } else {
+      audio.pause();
+      btnAudio.textContent = "🎵 Reproducir Música";
+    }
+  });
+</script>
+
+</body>
+</html>
